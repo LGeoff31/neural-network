@@ -65,8 +65,93 @@ Think of biases as allowing our model to have a y-intercept allowing for more fl
 
 ## Activation Functions
 
+Activation functions are used to squish a node's value down to something a network can deal with. 
 
+For instance, if we wanted all the node values to be between 0 and 1, we can use a sigmoid ($\frac{1}{1+e^{-x}}$) as our activation function.
 
+This means each node gets put through this function before the value is assigned.
+
+## Code
+
+Python is a great programming language for machine learning as it has numerous supported libraries.
+
+Let's begin by initializing an array which indicates how many nodes are present in each layer.
+
+`n = [2, 3, 3, 1]`
+
+Now we can use the numpy library in Python to randomly generate weights and biases for our neural network.
+We simply pass in the dimensions we expect our ith layer of weights to follow, which should be a *n[i] x n[i-1]* matrix
+
+```
+W1 = np.random.randn(n[1], n[0]) # Define dimensions of weights, access via the .shape property
+W2 = np.random.randn(n[2], n[1])
+W3 = np.random.randn(n[3], n[2])
+b1 = np.random.randn(n[1], 1)
+b2 = np.random.randn(n[2], 1)
+b3 = np.random.randn(n[3], 1)
+```
+
+Now let's provide the input data. Using our previous example, we need to pass in two nodes (height, weight). 
+
+Suppose X represents our input data and Y represents our output data.
+
+```
+# Passing in 10 input samples and corresponding labelled results. 
+X = np.array([
+    [150, 70], 
+    [254, 73],
+    [312, 68],
+    [120, 60],
+    [154, 61],
+    [212, 65],
+    [216, 67],
+    [145, 67],
+    [184, 64],
+    [130, 69]
+])
+A0 = X.T # Transpose to allow matrix multiplcation to work (2, 10)
+y = np.array([
+    0, 
+    1,  
+    1, 
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0
+])
+m = 10
+Y = y.reshape(n[3], m) # Reshape to reshape our data to support output layer dimensions 
+```
+
+Define our activation function
+```
+def sigmoid(arr):
+  return 1 / (1 + np.exp(-1 * arr))
+```
  
+Perform the feed forward process to build our network
+```
+m = 10
+
+# layer 1 calculations
+
+Z1 = W1 @ A0 + b1  # the @ means matrix multiplication
+
+assert Z1.shape == (n[1], m) # just checking if shapes are good
+A1 = sigmoid(Z1)
+
+# layer 2 calculations
+Z2 = W2 @ A1 + b2
+assert Z2.shape == (n[2], m)
+A2 = sigmoid(Z2)
+
+# layer 3 calculations
+Z3 = W3 @ A2 + b3
+assert Z3.shape == (n[3], m)
+A3 = sigmoid(Z3)
+```
 
 
