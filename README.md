@@ -152,6 +152,45 @@ A2 = sigmoid(Z2)
 Z3 = W3 @ A2 + b3
 assert Z3.shape == (n[3], m)
 A3 = sigmoid(Z3)
+
+y_hat = A3      # y_hat is the prediction of the model
 ```
 
+<img width="673" alt="image" src="https://github.com/user-attachments/assets/b9d2e509-dbb2-49c5-9726-3faf52c64855" />
+
+Going off this data, we can see that for the 10 people, we had around a 54-56% chance of being at risk for cardiovasular disease.
+
+If we round to the nearest integer, our model suggests everyone was at risk. Comparing this with our labelled data, our accuracy was 50% correct.
+
+This is very poor as it simulates essentially randomly guessing. But this makes sense, our weights and biases were randomized to beign with.
+
+## Types of Cost Functions
+
+**Mean squared Error**: Sum up the squares of all (predicted - expected
+**Root Mena Squared Error**: Squart root of Mean Squared Error
+**Mean absolute error**: Sum of all absoluate value of (predicted-expected)
+
+Although these cost functions take care of negative case $predicted > expected$, we don't choose any of them.
+
+We would rather choose a convex function (one with a global minimum i.e parabola) that way we can be sure we have minimized as much as possible.
+
+We want our convex cost function to output between 0 and 1. We will use the following binary cross entropy loss function:
+
+Single Training Sample:
+```math
+L(\hat{y}_i, y_i) = - \left( y_i \ln(\hat{y}_i) + (1 - y_i) \ln(1 - \hat{y}_i) \right)
+```
+
+Multiple Training Sample
+```math
+C = \frac{1}{m} \sum_{i=1}^{m} L(\hat{y}_i, y_i)
+```
+
+Where,
+
+$y_i$: Training label output for the $i^{th} training sample
+
+$\hat{y}_i$: Models prediction for $i^{th}$ training sample
+
+$L(\hat{y}_iy_i)$: Loss function
 
